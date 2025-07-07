@@ -12,7 +12,12 @@ import Index from "./pages/Index";
 import { Login } from "./pages/auth/Login";
 import { Register } from "./pages/auth/Register";
 import { Dashboard } from "./pages/Dashboard";
+import { Profile } from "./pages/Profile";
+import { QuizTaking } from "./pages/QuizTaking";
+import { QuizResults } from "./pages/QuizResults";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
+import { QuizManagement } from "./pages/admin/QuizManagement";
+import { CreateQuiz } from "./pages/admin/CreateQuiz";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +49,30 @@ const App = () => (
                       </ProtectedRoute>
                     }
                   />
+                  <Route
+                    path="/profile"
+                    element={
+                      <ProtectedRoute>
+                        <Profile />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/quiz/:quizId"
+                    element={
+                      <ProtectedRoute>
+                        <QuizTaking />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/quiz-results"
+                    element={
+                      <ProtectedRoute>
+                        <QuizResults />
+                      </ProtectedRoute>
+                    }
+                  />
                   
                   {/* Admin Routes */}
                   <Route
@@ -51,6 +80,22 @@ const App = () => (
                     element={
                       <ProtectedRoute requiredRole="admin">
                         <AdminDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/quizzes"
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <QuizManagement />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/admin/quizzes/create"
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <CreateQuiz />
                       </ProtectedRoute>
                     }
                   />
