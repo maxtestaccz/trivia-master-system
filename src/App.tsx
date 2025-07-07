@@ -11,6 +11,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import Index from "./pages/Index";
 import { Login } from "./pages/auth/Login";
 import { Register } from "./pages/auth/Register";
+import { ForgotPassword } from "./pages/auth/ForgotPassword";
 import { Dashboard } from "./pages/Dashboard";
 import { Profile } from "./pages/Profile";
 import { QuizTaking } from "./pages/QuizTaking";
@@ -18,6 +19,8 @@ import { QuizResults } from "./pages/QuizResults";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { QuizManagement } from "./pages/admin/QuizManagement";
 import { CreateQuiz } from "./pages/admin/CreateQuiz";
+import { Reports } from "./pages/admin/Reports";
+import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +42,7 @@ const App = () => (
                   {/* Auth Routes */}
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/auth/register" element={<Register />} />
+                  <Route path="/auth/forgot-password" element={<ForgotPassword />} />
                   
                   {/* User Routes */}
                   <Route
@@ -99,8 +103,17 @@ const App = () => (
                       </ProtectedRoute>
                     }
                   />
+                  <Route
+                    path="/admin/reports"
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <Reports />
+                      </ProtectedRoute>
+                    }
+                  />
                   
-                  {/* Catch-all route */}
+                  {/* Error Routes */}
+                  <Route path="/unauthorized" element={<Unauthorized />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </main>

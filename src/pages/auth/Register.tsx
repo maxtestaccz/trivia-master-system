@@ -41,19 +41,37 @@ export const Register = () => {
       return;
     }
 
+    if (formData.password.length < 6) {
+      toast({
+        title: "Password too short",
+        description: "Password must be at least 6 characters long.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      await register(formData.email, formData.password, formData.name);
-      toast({
-        title: "Account created!",
-        description: "Welcome to TriviaMax! You can now start taking quizzes.",
-      });
-      navigate('/dashboard');
+      const { error } = await register(formData.email, formData.password, formData.name);
+      
+      if (error) {
+        toast({
+          title: "Registration failed",
+          description: error,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Account created!",
+          description: "Welcome to TriviaMax! Please check your email to verify your account.",
+        });
+        navigate('/dashboard');
+      }
     } catch (error) {
       toast({
         title: "Registration failed",
-        description: "Please try again or contact support.",
+        description: "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -100,6 +118,9 @@ export const Register = () => {
                 onChange={handleChange}
                 required
               />
+              <p className="text-xs text-muted-foreground">
+                Use an email with "admin" in it to get admin access (e.g., admin@example.com)
+              </p>
             </div>
             
             <div className="space-y-2">
@@ -113,6 +134,7 @@ export const Register = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
+                  minLength={6}
                 />
                 <Button
                   type="button"

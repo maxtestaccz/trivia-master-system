@@ -13,7 +13,7 @@ export const ProtectedRoute = ({
   requireAuth = true, 
   requiredRole 
 }: ProtectedRouteProps) => {
-  const { user, isLoading } = useAuth();
+  const { user, profile, isLoading } = useAuth();
   const location = useLocation();
 
   if (isLoading) {
@@ -28,7 +28,7 @@ export const ProtectedRoute = ({
     return <Navigate to="/auth/login" state={{ from: location }} replace />;
   }
 
-  if (requiredRole && user?.role !== requiredRole) {
+  if (requiredRole && profile?.role !== requiredRole) {
     return <Navigate to="/unauthorized" replace />;
   }
 

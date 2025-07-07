@@ -1,5 +1,8 @@
 
-export interface User {
+import { Tables } from '@/integrations/supabase/types';
+
+// Export Supabase types
+export type User = {
   id: string;
   email: string;
   name: string;
@@ -7,60 +10,22 @@ export interface User {
   avatar?: string;
   createdAt: Date;
   emailVerified: boolean;
+};
+
+export type Profile = Tables<'profiles'>;
+export type Quiz = Tables<'quizzes'>;
+export type Question = Tables<'questions'>;
+export type QuestionOption = Tables<'question_options'>;
+export type UserProgress = Tables<'user_progress'>;
+export type UserAnswer = Tables<'user_answers'>;
+
+// Additional types for the UI
+export interface QuizWithQuestions extends Quiz {
+  questions: QuestionWithOptions[];
 }
 
-export interface Quiz {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  difficulty: 'easy' | 'medium' | 'hard';
-  timeLimit?: number; // in minutes
-  showAnswers: boolean;
-  isActive: boolean;
-  imageUrl?: string;
-  questions: Question[];
-  createdBy: string;
-  createdAt: Date;
-  tags: string[];
-}
-
-export interface Question {
-  id: string;
-  quizId: string;
-  type: 'single' | 'multiple' | 'truefalse';
-  question: string;
-  imageUrl?: string;
+export interface QuestionWithOptions extends Question {
   options: QuestionOption[];
-  correctAnswers: string[]; // option IDs
-  explanation?: string;
-  points: number;
-  order: number;
-}
-
-export interface QuestionOption {
-  id: string;
-  text: string;
-  imageUrl?: string;
-}
-
-export interface UserProgress {
-  id: string;
-  userId: string;
-  quizId: string;
-  score: number;
-  totalQuestions: number;
-  correctAnswers: number;
-  timeSpent: number; // in seconds
-  completedAt: Date;
-  answers: UserAnswer[];
-}
-
-export interface UserAnswer {
-  questionId: string;
-  selectedOptions: string[];
-  isCorrect: boolean;
-  timeSpent: number;
 }
 
 export interface Achievement {
